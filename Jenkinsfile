@@ -17,6 +17,7 @@ node{
         echo 'Step 2: Install npm'
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
+                sh 'npm install phantomjs-prebuilt'
                 sh 'npm install'
                 currentBuild.result = 'SUCCESS'
             }
