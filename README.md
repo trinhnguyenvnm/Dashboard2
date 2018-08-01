@@ -1,4 +1,4 @@
-# [Paper Dashboard Angular](https://www.creative-tim.com/product/paper-dashboard-angular)
+# [Paper Dashboard Angular2](https://www.creative-tim.com/product/paper-dashboard-angular)
 [![version][version-badge]][CHANGELOG]
 [![license][license-badge]][LICENSE]
 
