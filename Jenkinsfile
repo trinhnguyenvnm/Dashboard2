@@ -3,9 +3,9 @@ node{
     echo 'Demo CICD'
     
     stage('Clone code') {
-        echo 'Step 1: Clone code'
+        echo '==========Step 1: Clone code=========='
         try{
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/trinhnguyenvnm/Dashboard2.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '833ea7c2402173b6671b26a89a04eb54c6d7f841', url: 'https://github.com/trinhnguyenvnm/Dashboard2.git']]])
             currentBuild.result = 'SUCCESS'
         }catch(any){
 		    currentBuild.result = 'FAILURE'
@@ -13,12 +13,12 @@ node{
         }
     }
 
-    stage('install npm') {
-        echo 'Step 2: Install npm'
+    stage('Install npm') {
+        echo '==========Step 2: Install npm=========='
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                sh 'npm install phantomjs-prebuilt'
-                sh 'npm install'
+                // sh 'npm install phantomjs-prebuilt'
+                // sh 'npm install'
                 currentBuild.result = 'SUCCESS'
             }
 
@@ -28,11 +28,11 @@ node{
     }
 
     stage('Unit Test') {
-        echo 'Step 3: Run UT'
+        echo '==========Step 3: Run UT=========='
 
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                sh 'npm test'
+                // sh 'npm test'
                 currentBuild.result = 'SUCCESS'
             }
 
@@ -41,13 +41,35 @@ node{
         }
     }
 
-    stage('Deploy') {
-        echo 'Step 4: Build product'
+    stage('Build product') {
+        echo '==========Step 4: Build product=========='
 
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
                 sh 'npm run-script build'
-                // TODO: deploy to server
+                currentBuild.result = 'SUCCESS'
+            }
+        } catch(any) {
+            currentBuild.result = 'FAILURE'
+        }
+    }
+    stage('Deploy') {
+        echo '==========Step 5: Deploy=========='
+
+        try{
+            nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
+                //sh 'cd /var/lib/jenkins/workspace tar -czvf Dashboard_Master.taz.gz Dashboard_Master'
+                //sh 'scp truyennt3@13.76.128.132:/var/lib/jenkins/workspace/Dashboard_Master.taz.gz /opt/tomcat/webapp/'
+                //sh 'cd /opt/tomcat/webapp tar -xzvf Dashboard_Master.taz.gz'
+                //sh '/var/lib/deployUI.sh'
+                //sh 'cd /var/lib/jenkins/workspace/Dashboard_Master'
+                
+                sh 'tar -czvf dist.tar.gz dist'
+                sh 'cp dist.tar.gz /opt/tomcat/webapps/'
+
+                sh 'rm -rf /opt/tomcat/webapps/dist'
+                sh 'tar -xzvf /opt/tomcat/webapps/dist.tar.gz -C /opt/tomcat/webapps/'
+                sh 'rm -rf /opt/tomcat/webapps/dist.tar.gz'
                 currentBuild.result = 'SUCCESS'
             }
         } catch(any) {
