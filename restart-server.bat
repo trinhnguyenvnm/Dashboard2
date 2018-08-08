@@ -1,1 +1,0 @@
-docker restart my-apache-app3

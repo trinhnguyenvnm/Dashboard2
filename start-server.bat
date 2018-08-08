@@ -1,1 +1,0 @@
-docker start my-apache-app3
