@@ -17,8 +17,8 @@ node{
         echo '==========Step 2: Install npm=========='
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                //sh 'npm install phantomjs-prebuilt'
-                //sh 'npm install'
+                sh 'npm install phantomjs-prebuilt'
+                sh 'npm install'
                 currentBuild.result = 'SUCCESS'
             }
 
@@ -32,7 +32,7 @@ node{
 
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                // sh 'npm test'
+                sh 'npm test'
                 currentBuild.result = 'SUCCESS'
             }
 
@@ -46,7 +46,7 @@ node{
 
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                //sh 'npm run-script build'
+                sh 'npm run-script build'
                 currentBuild.result = 'SUCCESS'
             }
         } catch(any) {
@@ -57,13 +57,7 @@ node{
         echo '==========Step 5: Deploy=========='
 
         try{
-            nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                //sh 'cd /var/lib/jenkins/workspace tar -czvf Dashboard_Master.taz.gz Dashboard_Master'
-                //sh 'scp truyennt3@13.76.128.132:/var/lib/jenkins/workspace/Dashboard_Master.taz.gz /opt/tomcat/webapp/'
-                //sh 'cd /opt/tomcat/webapp tar -xzvf Dashboard_Master.taz.gz'
-                //sh '/var/lib/deployUI.sh'
-                //sh 'cd /var/lib/jenkins/workspace/Dashboard_Master'
-                
+            nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {                
                 sh 'tar -czvf dist.tar.gz dist'
                 sh 'cp dist.tar.gz /opt/tomcat/webapps/'
 
