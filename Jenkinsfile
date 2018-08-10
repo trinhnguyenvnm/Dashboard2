@@ -17,8 +17,8 @@ node{
         echo '==========Step 2: Install npm=========='
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                //sh 'npm install phantomjs-prebuilt'
-                //sh 'npm install'
+                sh 'npm install phantomjs-prebuilt'
+                sh 'npm install'
                 currentBuild.result = 'SUCCESS'
             }
 
@@ -32,7 +32,7 @@ node{
 
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                // sh 'npm test'
+                sh 'npm test'
                 currentBuild.result = 'SUCCESS'
             }
 
@@ -46,7 +46,7 @@ node{
 
         try{
             nodejs(configId: 'trinh-npm-config-id', nodeJSInstallationName: 'NodeJS v9-latest') {
-                //sh 'npm run-script build'
+                sh 'npm run-script build'
                 currentBuild.result = 'SUCCESS'
             }
         } catch(any) {
